@@ -6,9 +6,11 @@ To customize your project add a config file like this and name it `config.js`:
 module.exports = {
   port: 8080,
   allowedPorts: [
+		3000,
+		3500,
     {
-      from: 3000,
-      to: 16000
+      from: 8080,
+      to: 8085
     }
   ]
 }
