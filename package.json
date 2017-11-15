@@ -1,0 +1,23 @@
+{
+  "name": "port-forwarder",
+  "version": "1.0.0",
+  "description": "Forwards incoming http requests to a specified port; forward.domain.com/8081/request => port 8081",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitofant/port-forwarder.git"
+  },
+  "author": "jtesse@gmx.de",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitofant/port-forwarder/issues"
+  },
+  "homepage": "https://github.com/bitofant/port-forwarder#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "http-proxy": "^1.16.2"
+  }
+}
