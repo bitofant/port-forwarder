@@ -4,12 +4,12 @@ Forwards incoming http requests to a specified port; forward.domain.com/8081/req
 To customize your project add a config file like this and name it `config.js`:
 ```JavaScript
 module.exports = {
-	"port": 8080,
-	"allowedPorts": [
-		{
-			"from": 3000,
-			"to": 16000
-		}
-	]
+  port: 8080,
+  allowedPorts: [
+    {
+      from: 3000,
+      to: 16000
+    }
+  ]
 }
 ```
