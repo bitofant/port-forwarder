@@ -4,7 +4,7 @@ const app = express ();
 const httpProxy = require ('http-proxy');
 const proxy = httpProxy.createProxyServer ();
 
-const config = require ('./config.js') || {
+const config = {
 	port: 8080,
 	allowedPorts: [
 		{
@@ -13,6 +13,18 @@ const config = require ('./config.js') || {
 		}
 	]
 };
+
+(() => {
+	try {
+		var loadedConfig = JSON.parse (require ('fs').readFileSync ('config.json', 'utf8'));
+		for (var k in loadedConfig) {
+			if (k.startsWith ('$')) continue;
+			config[k] = loadedConfig[k];
+		}
+	} catch (err) {
+		console.log ('No config.json present or unable to parse it:\n', err);
+	}
+}) ();
 
 function isPortAllowed (port) {
 	for (var i = 0; i < config.allowedPorts.length; i++) {
