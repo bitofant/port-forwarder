@@ -49,6 +49,12 @@ process.on('uncaughtException', function (err) {
 	console.log(err);
 });
 
+app.all ('/', (req, res) => {
+	res
+		.status (403)
+		.send ('<!DOCTYPE html>\r\n<html><head><title>403 Fobidden</title></head><body><h1>403 Forbidden</h1>Unable to access resource</body></html>');
+})
+
 app.all (/\/([0-9]+)(.*)/, (req, res) => {
 	var targetPort = parseInt (req.params[0]);
 	if (!isPortAllowed (targetPort)) {
@@ -60,9 +66,16 @@ app.all (/\/([0-9]+)(.*)/, (req, res) => {
 	req.url = req.params[1] || '/';
 	req.headers['X-IP'] = req.connection.remoteAddress;
 	console.log ('proxy -> ' + req.params[0]);
-	proxy.web (req, res, {
-		target: 'http://127.0.0.1:' + req.params[0]
-	});
+	try {
+		proxy.web (req, res, {
+			target: 'http://127.0.0.1:' + req.params[0]
+		});
+	} catch (err) {
+		console.log (err);
+		res
+			.status (404)
+			.send ('<!DOCTYPE html>\r\n<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1>Unable to access resource</body></html>');
+	}
 });
 
 app.listen (config.port, () => {
