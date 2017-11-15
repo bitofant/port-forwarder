@@ -27,6 +27,22 @@
 					},
 					{
 						"type": "object",
+						"title": "Single port",
+						"description": "Adds a single port that is allowed",
+						"additionalProperties": false,
+						"required": [
+							"port"
+						],
+						"properties": {
+							"port": {
+								"type": "number",
+								"minimum": 1,
+								"maximum": 65536
+							}
+						}
+					},
+					{
+						"type": "object",
 						"title": "Port range",
 						"description": "Range of ports that are allowed",
 						"additionalProperties": false,
