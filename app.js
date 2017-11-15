@@ -44,10 +44,26 @@ function isPortAllowed (port) {
 	return false;
 }
 
+
+var triedConnections = {};
 process.on('uncaughtException', function (err) {
+	if (err.code === 'ECONNREFUSED' && err.address === '127.0.0.1' && err.port) {
+		if (triedConnections[err.port]) {
+			triedConnections[err.port].forEach (res => {
+				res
+					.status(404)
+					.send('<!DOCTYPE html>\r\n<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1>Unable to access resource</body></html>');
+			});
+			triedConnections[err.port] = [];
+		}
+		return;
+	}
 	console.log('--< UNCAUGHT EXCEPTION >--');
 	console.log(err);
 });
+
+
+
 
 app.all ('/', (req, res) => {
 	res
@@ -67,9 +83,22 @@ app.all (/\/([0-9]+)(.*)/, (req, res) => {
 	req.headers['X-IP'] = req.connection.remoteAddress;
 	console.log ('proxy -> ' + req.params[0]);
 	try {
+		if (!triedConnections[targetPort]) {
+			triedConnections[targetPort] = [res];
+		} else {
+			triedConnections[targetPort].push (res);
+		}
 		proxy.web (req, res, {
 			target: 'http://127.0.0.1:' + req.params[0]
 		});
+		setTimeout (() => {
+			var arr = triedConnections[targetPort];
+			for (var i = arr.length - 1; i >= 0; i--) {
+				if (arr[i] === res) {
+					arr.splice (i, 1);
+				}
+			}
+		}, 5000);
 	} catch (err) {
 		console.log (err);
 		res
