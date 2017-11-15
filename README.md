@@ -1,10 +1,10 @@
 # port-forwarder
 Forwards incoming http requests to a specified port; forward.domain.com/8081/request => port 8081
 
-To customize your project add a config file like this and name it `config.json`:
+To customize your project add a config file like follows and name it `config.json`. If you link the schema file (as in the example below) you even get auto completion and descriptions for the config.
 ```JSON
 {
-  "$schema": "config-schema.json",
+  "$schema": "https://raw.githubusercontent.com/bitofant/port-forwarder/master/config-schema.json",
   "port": 8080,
   "allowedPorts": [
     3000,
