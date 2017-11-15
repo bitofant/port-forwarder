@@ -71,14 +71,14 @@ app.listen (config.port, () => {
 
 
 
-var test = express ();
-test.get ('/test', (req, res) => {
-	res.send ('<!DOCTYPE html>\r\n<html><body><pre>SUCCESS 8)\n' + JSON.stringify (req.headers, null, 4) + '</pre></body></html>');
-});
-test.all (/(.*)/, (req, res) => {
-	res.send ('<!DOCTYPE html>\r\n<html><body><pre>URL = ' + req.url + '</pre></body></html>');
-});
-test.listen (3001, () => {
-	console.log ('Test listening on port 3001');
-});
+// var test = express ();
+// test.get ('/test', (req, res) => {
+// 	res.send ('<!DOCTYPE html>\r\n<html><body><pre>SUCCESS 8)\n' + JSON.stringify (req.headers, null, 4) + '</pre></body></html>');
+// });
+// test.all (/(.*)/, (req, res) => {
+// 	res.send ('<!DOCTYPE html>\r\n<html><body><pre>URL = ' + req.url + '</pre></body></html>');
+// });
+// test.listen (3001, () => {
+// 	console.log ('Test listening on port 3001');
+// });
 
