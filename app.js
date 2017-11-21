@@ -5,7 +5,7 @@ const httpProxy = require ('http-proxy');
 const proxy = httpProxy.createProxyServer ();
 
 const config = {
-	port: 8080,
+	port: process.env.HTTP_PORT || 8080,
 	allowedPorts: [
 		{
 			from: 3000,
@@ -15,6 +15,36 @@ const config = {
 };
 
 (() => {
+	if (process.env.HTTP_PORT && process.env.PORTS_ALLOWED) {
+		console.log ('Loading config from env variables; Skpping config file');
+		var sp = process.env.PORTS_ALLOWED
+			.split ('  ').join (' ')
+			.split (' -').join ('-')
+			.split ('- ').join ('-')
+			.split (' ').join (',')
+			.split (',');
+		config.allowedPorts = [];
+		sp.forEach (cfg => {
+			if (!cfg || cfg.length === 0) return;
+			try {
+				var scfg = cfg.split ('-');
+				for (var i = 0; i < scfg.length; i++) scfg[i] = parseInt (scfg[i]);
+				if (scfg.length === 1) {
+					allowedPorts.push (scfg[0]);
+				} else if (scfg.length === 2) {
+					allowedPorts.push ({
+						from: scfg[0],
+						to: scfg[1]
+					});
+				} else {
+					console.log ('Unknown syntax for allowed port: ' + cfg);
+				}
+			} catch (err) {
+				console.log (err);
+			}
+		});
+		return;
+	}
 	try {
 		var loadedConfig = JSON.parse (require ('fs').readFileSync ('config.json', 'utf8'));
 		for (var k in loadedConfig) {
