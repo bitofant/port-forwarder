@@ -1,4 +1,6 @@
 # port-forwarder
+> ** this project has ben superseded by [bitofant/tunneler](https://github.com/bitofant/tunneler) **
+
 Forwards incoming http requests to a specified port; forward.domain.com/8081/request => port 8081
 
 To customize your project add a config file like follows and name it `config.json`. If you link the schema file (as in the example below) you even get auto completion and descriptions for the config.
